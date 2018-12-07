@@ -7,37 +7,37 @@ import Items from './components/items'
 import ItemInfo from './components/itemInfo'
 import NavBar from './components/navBar'
 import SoldWatches from './components/soldWatches'
+import About from './components/about'
+import Contact from './components/contact'
+import Service from './components/service'
 
 
 class App extends Component {
-  state = {
-    name: "items",
-    items: [
-      {id: 1, itemName: "Item Name1", itemPrice: 999, linkName:"Item-Name1", sold:false},
-      {id: 2, itemName: "Item Name2", itemPrice: 999, linkName:"Item-Name2", sold:false},
-      {id: 3, itemName: "Item Name3", itemPrice: 999, linkName:"Item-Name3", sold:false},
-      {id: 4, itemName: "Item Name4", itemPrice: 999, linkName:"Item-Name4", sold:true},
-      {id: 5, itemName: "Item Name5", itemPrice: 999, linkName:"Item-Name5", sold:true}
-    ]
+      state = {
+        name: "items",
+        items: []
+          }
+  componentDidMount() {
+    fetch('/users')
+    .then(res => res.json())
+    .then(Items => this.setState({ items: Items }));
   }
-   componentDidMount() {
-     fetch('/users')
-      .then(res => res.json())
-      .then(Items => this.setState({ items: Items }));
-    }
 
-
+itemsForSale;
+itemsSold;
 infoItemName;
 infoItemPrice;
 infoLinkName;
 infoItemDescription;
 soldItem;
-  render() {
-    console.log("his.state.items");
-    console.log(this.soldItem);
-console.log(this.itemsSold);
-console.log(this.itemsForSale);
 
+  render() {
+    this.itemsSold = this.state.items.filter(function(item){
+      return item.sold === true;
+    });
+    this.itemsForSale = this.state.items.filter(function(item){
+      return item.sold === false;
+    });
     return (
       <div className="App">
         <NavBar/>
@@ -58,9 +58,12 @@ console.log(this.itemsForSale);
   )} />
 <Route path="/sold-watches" render={() => (
     <SoldWatches
-
+      itemsSold={this.itemsSold}
       />
-  )}></Route>
+  )}/>
+<Route path="/about" render={() => (<About/>)}/>
+<Route path="/service" render={() => (<Service/>)}/>
+<Route path="/contact" render={() => (<Contact/>)}/>
         </Switch>
         <main>
 
@@ -84,14 +87,5 @@ handleItemLinkClick = item  => {
   this.infoItemDescription = itemDescription;
 }
 
-itemsSold = this.state.items.filter(function(item){
-  return item.sold === true;
-});
-itemsForSale = this.state.items.filter(function(item){
-  return item.sold === false;
-});
-
-
 }
-
 export default App;

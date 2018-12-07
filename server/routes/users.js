@@ -22,9 +22,9 @@ var router = express.Router();
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       var dbo = db.db("Items");
-    dbo.collection('Items').find({}, {_id:1, _itemName:1}).toArray(function (err, docs) {
+    dbo.collection('Items').find({}, {_id:1, _itemName:1}).toArray(function (err, items) {
         db.close();
-        res.send(JSON.stringify(docs));
+        res.send(JSON.stringify(items));
     });
 });
 })
