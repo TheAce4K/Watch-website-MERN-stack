@@ -8,15 +8,13 @@ class Items extends React.Component{
 
   render () {
     return (
-      <React.Fragment>
-    <div id="item">
-        <Link to={`/${this.props.item.linkName}`} onClick={() => this.props.onItemLinkClick(this.props.item)}>
-          <img src="https://via.placeholder.com/250" alt=""/>
+    <div className="item">
+        <Link to={`/${this.props.item.linkName}`}  onClick={() => this.props.onItemLinkClick(this.props.item)}>
+          <img src={`../resources/${this.props.item.linkName}.jpg`} alt=""/>
           <h1>{this.props.item.itemName}</h1>
         </Link>
         <h4>${this.props.item.itemPrice}</h4>
       </div>
-    </React.Fragment>
     )
   }
 }
